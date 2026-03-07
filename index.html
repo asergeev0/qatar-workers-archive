@@ -3,65 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Shadow of West Bay | Doha Archive</title>
+    <title>The Human Foundation | Doha Archive</title>
     <style>
-        /* CSS Variables for easy color/sizing changes */
+        /* CSS Variables */
         :root {
             --bg-color: #0f0f0f;
             --text-main: #e2e2e2;
             --text-muted: #888888;
+            --accent-color: #cccccc;
             --max-width-text: 720px;
             --max-width-img: 1200px;
         }
 
-        /* Base Typography & Layout */
+        /* Base Typography */
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Georgia', serif; /* Classic serif for long-form reading */
+            font-family: 'Georgia', serif;
             line-height: 1.8;
             margin: 0;
             padding: 0;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Clean sans-serif for headers and interface elements */
-        h1, h2, .sans {
+        h1, h2, h3, .sans {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 300;
         }
 
-        /* Header Section */
-        header {
-            max-width: var(--max-width-text);
-            margin: 12vh auto 8vh;
-            padding: 0 24px;
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
         }
-        
-        h1 {
-            font-size: 2.8rem;
-            color: #ffffff;
-            line-height: 1.2;
-            margin-bottom: 0.5rem;
+
+        /* Sticky Table of Contents Navigation */
+        nav.sticky-toc {
+            position: sticky;
+            top: 0;
+            background-color: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid #222;
+            z-index: 100;
+            padding: 12px 0;
             text-align: center;
         }
 
-        .subtitle {
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .toc-list li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list li a:hover {
+            color: #ffffff;
+        }
+
+        /* Responsive menu for smaller screens (mobile) */
+        @media (max-width: 600px) {
+            .toc-list {
+                gap: 1rem;
+            }
+            .toc-list li a {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Main Project Header */
+        .project-header {
+            max-width: var(--max-width-text);
+            margin: 10vh auto 8vh;
+            padding: 0 24px;
+            text-align: center;
+        }
+        
+        .project-title {
+            font-size: 3rem;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-subtitle {
             font-size: 1.1rem;
             color: var(--text-muted);
-            text-align: center;
             margin-bottom: 3rem;
             letter-spacing: 0.5px;
         }
 
-        .intro-text {
+        /* Chapter Dividers (Note the scroll-margin-top to prevent the sticky menu from covering the header) */
+        .chapter-header {
+            max-width: var(--max-width-text);
+            margin: 6rem auto 4rem;
+            padding: 4rem 24px 0;
+            border-top: 1px solid #333;
+            text-align: center;
+            scroll-margin-top: 80px; 
+        }
+
+        .chapter-number {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-title {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .chapter-intro {
             font-size: 1.15rem;
             color: #cccccc;
+            text-align: left;
         }
 
         /* Photo & Caption Blocks */
         .photo-section {
-            margin-bottom: 8rem; /* Large spacing between photos for pacing */
+            margin-bottom: 8rem;
         }
 
         .photo-container {
@@ -74,7 +148,7 @@
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 2px; /* Very subtle softening of image corners */
+            border-radius: 2px;
         }
 
         .caption {
@@ -84,12 +158,11 @@
             font-size: 1.05rem;
         }
 
-        /* Paragraph spacing within captions */
         .caption p {
             margin-bottom: 1.5rem;
         }
 
-        /* Footer & Offloaded Comments */
+        /* Footer */
         footer {
             max-width: var(--max-width-text);
             margin: 6rem auto 4rem;
@@ -104,70 +177,256 @@
             font-style: italic;
             margin-bottom: 2rem;
         }
-
-        .reddit-button {
-            display: inline-block;
-            background-color: #222;
-            color: #fff;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            font-size: 0.95rem;
-            transition: background-color 0.2s ease;
+        /* Metadata Archive Link */
+        .meta-link {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            text-align: right;
+            border-top: 1px solid #222;
+            padding-top: 0.8rem;
         }
 
-        .reddit-button:hover {
-            background-color: #444;
+        .meta-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .meta-link a:hover {
+            color: #ffffff;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <!-- Introductory Header -->
-    <header>
-        <h1>The Shadow of West Bay</h1>
-        <div class="subtitle sans">An Archival Record of Doha's Migrant Workforce (2012–2015)</div>
-        <div class="intro-text">
-            <p>Before the World Cup brought global scrutiny to Qatar's kafala labor system, the foundations of Doha's futuristic skyline were already being laid. This archive documents the stark visual and physical contrasts between the ultra-wealthy environment being built and the harsh, restrictive reality of the marginalized men building it.</p>
-        </div>
+    <!-- Main Project Header -->
+    <header class="project-header">
+        <h1 class="project-title">The Human Foundation</h1>
+        <div class="project-subtitle sans">A Documentary Archive of Doha's Migrant Workforce (2012–2015)</div>
     </header>
 
+    <!-- Sticky Table of Contents -->
+    <nav class="sticky-toc">
+        <ul class="toc-list">
+            <li><a href="#chapter-1">I. West Bay</a></li>
+            <li><a href="#chapter-2">II. Msheireb</a></li>
+            <li><a href="#chapter-3">III. Al Ghanim</a></li>
+        </ul>
+    </nav>
+
     <main>
-        <!-- Photo Section 1 -->
+        
+        <!-- ========================================== -->
+        <!-- CHAPTER I: WEST BAY                        -->
+        <!-- ========================================== -->
+        <article class="chapter">
+            <!-- The ID here matches the href in the navigation menu -->
+            <header id="chapter-1" class="chapter-header">
+                <div class="chapter-number sans">Chapter I</div>
+                <h2 class="chapter-title">The Shadow of West Bay</h2>
+                <div class="chapter-intro">
+                    <p>Before the World Cup brought global scrutiny to Qatar's kafala labor system, the foundations of Doha's futuristic skyline were already being laid. This chapter documents the stark visual and physical contrasts between the ultra-wealthy environment being built and the harsh, restrictive reality of the marginalized men building it.</p>
+                </div>
+            </header>
+
         <section class="photo-section">
             <div class="photo-container">
-                <!-- Replace 'photo1.jpg' with your actual image filename -->
-                <img src="images/photo1.jpg" alt="Two migrant workers resting on a concrete barrier in Doha">
+                <img src="images/westbay-1332-19.jpg" alt="Two migrant workers resting on a concrete barrier">
             </div>
             <div class="caption">
                 <p>Two men sit perched on a heavy, white plastic road barrier at the perimeter of the Qatar Petroleum District construction site, offering a snapshot of the informal social dynamics and hierarchies among the migrant workforce. The setting is purely utilitarian: a dusty roadside against the plain hoarding of the site fence, underscoring the lack of dedicated, comfortable rest areas for the men building Doha's luxury infrastructure.</p>
                 <p>The differences in their attire point to the rigid, color-coded class system prevalent on Gulf construction sites. The laborer on the left holds a cigarette and offers a slight, weary smile to the camera. Their shared rest highlights that, regardless of their specific roles, all migrant workers in this system are ultimately bound by the same harsh environmental realities.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2014/1332/19.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- Photo Section 2 -->
         <section class="photo-section">
             <div class="photo-container">
-                <img src="images/photo2.jpg" alt="Workers dwarfed by a massive portrait of Qatar's Emir">
+                <img src="images/westbay-1332-23.jpg" alt="Workers dwarfed by a massive portrait of Qatar's Emir">
             </div>
             <div class="caption">
                 <p>At the edge of a bustling construction zone in West Bay, a group of migrant laborers gathers at the end of their shift, dwarfed by a colossal portrait of Qatar's Emir, Sheikh Tamim bin Hamad Al Thani. The portrait functions as both a declaration of national pride and a looming symbol of the state's absolute authority over the urban landscape.</p>
                 <p>The photograph captures a striking vertical dichotomy that defined Qatar during its intense pre-World Cup development phase. The pristine, aspirational image of the ruling monarch projects a vision of a wealthy nation from above, while the foreign laborers who physically build that vision are relegated to the dusty, congested reality of the street below.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2014/1332/23.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
             </div>
         </section>
-        
-        <!-- Add more <section class="photo-section"> blocks here as needed -->
+        </article>
+
+        <!-- ========================================== -->
+        <!-- CHAPTER II: MSHEIREB                       -->
+        <!-- ========================================== -->
+        <article class="chapter">
+            <header id="chapter-2" class="chapter-header">
+                <div class="chapter-number sans">Chapter II</div>
+                <h2 class="chapter-title">The Erasure of Msheireb</h2>
+                <div class="chapter-intro">
+                    <p>As the Qatari government moved to purchase and clear the historic city center to construct a luxury smart-city, thousands of laborers were left in severely degraded, overcrowded structures, effectively living inside active demolition zones before being pushed to the city's distant fringes.</p>
+                </div>
+            </header>
+			
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/msheireb-1641-11.jpg" alt="Migrant laborers resting on a curb at 6:00 a.m.">
+            </div>
+            <div class="caption">
+                <p>A group of four migrant laborers rests on the curb along Masafi Street in the historic, albeit decaying, Msheireb district...</p>
+                <!-- Archive link -->
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2015/1641/11.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+			
+        </article>
+
+        <!-- ========================================== -->
+        <!-- CHAPTER III: AL GHANIM                     -->
+        <!-- ========================================== -->
+        <article class="chapter">
+            <header id="chapter-3" class="chapter-header">
+                <div class="chapter-number sans">Chapter III</div>
+                <h2 class="chapter-title">The Respite of Al Ghanim</h2>
+                <div class="chapter-intro">
+                    <p>For the vast expatriate workforce building pre-World Cup Doha, Friday represented the sole day of rest. Denied access to many formal public parks—which were frequently designated as 'family zones' and off-limits to single male laborers—thousands of men descended upon the transit hub of the Al Ghanim Central Bus Station. Shedding the uniform blue coveralls and neon hard hats of the construction sites, they arrived in their 'Friday best' to reclaim a brief sense of agency. Within these dusty lots, decaying souqs, and sparse traffic islands, the workers forged micro-economies, shared digital lifelines, and built a vibrant, resilient community on the margins of the city.</p>
+                </div>
+            </header>
+
+	    <!-- Focus: Identity and dignity --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1028-26.jpg" alt="The Group Portrait on the Grass">
+            </div>
+            <div class="caption">
+                <p>A tightly packed group of workers poses for a rare, composed portrait on the lawn. Their personal attire—from polo shirts to a 'National Sports Day' cap—reflects their individuality, a sharp contrast to the anonymous uniformity required of them during the week. Their expressions range from gentle smiles to deep weariness, freezing a moment of quiet dignity amid the relentless demands of building a foreign city.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1028/26.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+	    <!-- Focus: Architecture and commerce. --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1029-11.jpg" alt="The Al Najada Souq">
+            </div>
+            <div class="caption">
+                <p>The historic commercial streets of Al Najada Souq transform into a kinetic hub of expatriate social life. Set against weathered plaster walls and traditional storefronts like the 'New Al Fajer Tailor,' the scene grounds the workers in older, organic urban spaces. Here, drinking bright bottles of orange Mirinda, they briefly reclaim a sense of agency far removed from the hyper-modern West Bay towers they are building.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1029/11.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+	    <!-- Focus: The digital lifeline --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1031-10.jpg" alt="Three Men with the Mobile Phone">
+            </div>
+            <div class="caption">
+                <p>Three young men sit cross-legged on the grass, their shared attention fixed on a mobile phone screen. Isolated in distant labor camps for most of the week, smartphones served as essential connections to news, entertainment, and families back home. The tight crop of the image emphasizes the intimacy of this shared digital experience against the massive, sprawling crowd behind them.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1031/10.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+	    <!-- Focus: Density and networking --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1031-12.jpg" alt="The Animated Conversation">
+            </div>
+            <div class="caption">
+                <p>A man in a green button-down shirt gestures expressively, leading an animated discussion with his companions. The tight framing highlights the sheer density of the gathering; behind the main subjects stands a solid wall of other workers packed closely together. Despite the lack of benches or shade, these impromptu forums were vital spaces to exchange information, seek advice, and maintain emotional well-being.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1031/12.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+	    <!-- Focus: Resourcefulness and the micro-economy. --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1037-08.jpg" alt="The Improvised Flea Market">
+            </div>
+            <div class="caption">
+                <p>A dusty, unpaved lot near the bus station is converted into an informal flea market catering to the tight budgets of the expatriate laborers. Workers crouch to inspect goods like bootlegged CDs and colorful cards laid out on flattened cardboard, while one man in the foreground holds two black bicycle tires for trade. The stark, littered setting highlights a resourceful micro-economy operating entirely without municipal support.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1037/08.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+	    <!-- Focus: The physical toll on the landscape. --->
+        <section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1037-15.jpg" alt="The Grand Hamad Intersection Lawn">
+            </div>
+            <div class="caption">
+                <p>Hundreds of men blanket a grassy traffic island near the Grand Hamad Intersection, utilizing the space beneath a large tree as an improvised park. The sheer volume of laborers relying on this single area strains the environment; the grass is heavily worn and littered with discarded water bottles and food wrappers, a physical testament to the massive scale of a workforce provided with virtually no formal recreational infrastructure.</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1037/15.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-RRRR-PP.jpg" alt="Workers gathered on a lawn near the bus station">
+            </div>
+            <div class="caption">
+                <p>On a late Friday afternoon, a sprawling lawn near Doha's Al Ghanim Central Bus Station becomes a vibrant oasis of community...</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/RRRR/PP.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section -->
+
+        <!-- section class="photo-section">
+            <div class="photo-container">
+                <img src="images/alghanim-1016-22.jpg" alt="Workers gathered on a lawn near the bus station">
+            </div>
+            <div class="caption">
+                <p>On a late Friday afternoon, a sprawling lawn near Doha's Al Ghanim Central Bus Station becomes a vibrant oasis of community...</p>
+                <div class="meta-link sans">
+                    <a href="https://www.asergeev.com/pictures/archives/compress/2012/1016/22.htm" target="_blank" rel="noopener noreferrer">
+                        View complete archive record (GPS, Date, &amp; Full-Size) ↗
+                    </a>
+                </div>
+            </div>
+        </section -->
+        </article>
+
     </main>
 
-    <!-- Footer with AI Disclosure and Reddit Link -->
+    <!-- Footer -->
     <footer>
         <p class="disclosure">Transparency Note: The text descriptions for this archival project were articulated and structured with the assistance of an AI tool, based strictly on the photographer's original observations, memories, and historical context.</p>
-        
-        <p class="sans" style="color: #ccc; margin-bottom: 1.5rem;">Photographs by Alexey Sergeev</p>
-        
-        <!-- You will update this link once you create the Reddit post -->
-        <a href="https://reddit.com/r/Documentaries" target="_blank" class="reddit-button">Discuss this project on Reddit</a>
+        <p class="sans" style="color: #ccc;">Photographs by Alexey Sergeev</p>
     </footer>
 
 </body>
